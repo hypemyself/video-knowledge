@@ -1,0 +1,24 @@
+:root { color-scheme: light; font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; color: #183135; background: #f5f8f7; }
+main { max-width: 680px; margin: 0 auto; padding: 48px 24px; }
+header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+.mark { display: grid; place-items: center; width: 42px; height: 42px; flex: none; border-radius: 6px; background: #157f72; color: white; font-size: 23px; font-weight: 700; }
+h1 { margin: 0; font-size: 22px; font-weight: 700; }
+header p { margin: 4px 0 0; color: #61777a; }
+form { border-top: 1px solid #ccd9d6; padding-top: 24px; }
+label { display: block; margin: 0 0 8px; font-weight: 650; }
+input { width: 100%; height: 42px; border: 1px solid #b7cbc7; border-radius: 5px; padding: 0 12px; background: white; color: #183135; font: inherit; }
+input:focus-visible, button:focus-visible { outline: 2px solid #157f72; outline-offset: 2px; }
+.hint { margin: 7px 0 25px; color: #63777a; font-size: 12px; }
+.token-field { display: flex; gap: 8px; }
+.token-field input { min-width: 0; }
+button { height: 42px; border: 1px solid #b7cbc7; border-radius: 5px; padding: 0 15px; background: white; color: #1a5653; font: inherit; font-weight: 600; cursor: pointer; white-space: nowrap; }
+button:hover { background: #e8f2ef; }
+button:disabled { opacity: .6; cursor: wait; }
+.primary { background: #157f72; border-color: #157f72; color: white; }
+.primary:hover { background: #126c62; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+#status { min-height: 22px; margin: 16px 0 0; color: #335c59; }
+#status.error { color: #a34835; }
+@media (max-width: 500px) { main { padding: 28px 16px; } h1 { font-size: 19px; } }

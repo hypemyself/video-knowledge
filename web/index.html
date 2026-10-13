@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f6f7f5" />
+    <title>知点 · 视频知识库</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div id="boot-view" class="access-screen" role="status" aria-live="polite">
+      <div class="access-brand"><span class="access-brand-mark" aria-hidden="true">▶</span><strong>知点</strong></div>
+      <p id="boot-message">正在连接服务…</p>
+      <button id="retry-connection" class="button button-subtle" type="button" hidden>重试连接</button>
+    </div>
+
+    <main id="auth-view" class="access-screen" hidden>
+      <div class="access-brand"><span class="access-brand-mark" aria-hidden="true">▶</span><strong>知点</strong></div>
+      <form id="auth-form" class="access-form">
+        <h1>访问知识库</h1>
+        <p>输入私有访问令牌以继续。</p>
+        <label for="access-token">访问令牌</label>
+        <input id="access-token" name="access_token" type="password" autocomplete="current-password" spellcheck="false" required />
+        <p id="auth-error" class="form-error" role="alert" hidden></p>
+        <button id="auth-submit" class="button button-primary" type="submit">进入知识库</button>
+      </form>
+    </main>
+
+    <div id="app-shell" class="app-shell" hidden>
+      <aside class="sidebar" aria-label="主导航">
+        <a class="brand" href="#library" aria-label="知点，返回知识库">
+          <span class="brand-mark" aria-hidden="true"><span></span></span>
+          <span class="brand-copy"><strong>知点</strong><small>视频知识库</small></span>
+        </a>
+
+        <nav class="side-nav" aria-label="页面">
+          <button class="nav-item is-active" type="button" data-view="library" aria-current="page">
+            <span class="nav-icon" aria-hidden="true">▤</span><span>知识库</span>
+          </button>
+          <button class="nav-item" type="button" data-view="settings">
+            <span class="nav-icon" aria-hidden="true">⚙</span><span>AI 设置</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <span class="sidebar-label">服务状态</span>
+          <span id="sidebar-status" class="service-status"><i aria-hidden="true"></i>正在检查</span>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="breadcrumb"><span>工作台</span><span aria-hidden="true">/</span><strong id="breadcrumb-current">知识库</strong></div>
+          <div class="topbar-actions">
+            <button id="refresh-button" type="button" class="topbar-action" title="刷新知识库" aria-label="刷新知识库">↻</button>
+            <button id="signout-button" type="button" class="signout-button" hidden>退出</button>
+          </div>
+        </header>
+
+        <section id="library-view" class="view" aria-labelledby="library-heading">
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">LIBRARY</p>
+              <h1 id="library-heading">视频知识库</h1>
+              <p id="library-count" class="muted">正在读取内容…</p>
+            </div>
+          </div>
+
+          <form id="analyze-form" class="capture-form">
+            <label for="video-url">整理视频</label>
+            <div class="capture-fields">
+              <input id="video-url" name="url" type="url" inputmode="url" autocomplete="url" placeholder="粘贴哔哩哔哩视频链接" required />
+              <button id="analyze-button" class="button button-primary" type="submit"><span aria-hidden="true">＋</span> 开始整理</button>
+            </div>
+            <p id="form-error" class="form-error" role="alert" hidden></p>
+          </form>
+
+          <div id="setup-banner" class="inline-notice" hidden>
+            <span class="notice-symbol" aria-hidden="true">!</span>
+            <span>尚未配置 AI 服务。</span>
+            <button type="button" class="text-button" data-open-settings>前往设置 <span aria-hidden="true">→</span></button>
+          </div>
+
+          <div id="job-panel" class="job-panel" role="status" aria-live="polite" hidden>
+            <div class="job-copy">
+              <span id="job-icon" class="job-icon" aria-hidden="true">◌</span>
+              <div><strong id="job-title">正在整理视频</strong><p id="job-progress">准备中…</p></div>
+            </div>
+            <div class="job-actions">
+              <button id="confirm-transcription" class="button button-subtle" type="button" hidden>转写并继续</button>
+              <button id="cancel-job" class="button button-subtle" type="button" hidden>停止整理</button>
+              <button id="dismiss-job" class="icon-button" type="button" title="关闭提示" aria-label="关闭提示" hidden>×</button>
+            </div>
+          </div>
+          <section id="partial-panel" class="partial-panel" aria-label="正在整理的知识点" hidden></section>
+
+          <div class="workspace">
+            <section class="video-column" aria-labelledby="video-list-heading">
+              <div class="column-heading">
+                <h2 id="video-list-heading">视频</h2>
+                <span id="video-list-count" class="count-badge">0</span>
+              </div>
+              <div class="search-field">
+                <span aria-hidden="true">⌕</span>
+                <input id="video-search" type="search" placeholder="搜索视频或知识点" aria-label="搜索视频标题、知识点和分类" />
+              </div>
+              <div id="video-list" class="video-list" aria-live="polite"></div>
+            </section>
+
+            <section id="detail-column" class="detail-column" aria-label="视频知识点">
+              <div id="detail-empty" class="detail-empty">
+                <span class="empty-illustration" aria-hidden="true">▶</span>
+                <h2>选择一个视频</h2>
+                <p>知识点会显示在这里。</p>
+              </div>
+              <div id="video-detail" hidden></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="settings-view" class="view" aria-labelledby="settings-heading" hidden>
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">CONFIGURATION</p>
+              <h1 id="settings-heading">AI 设置</h1>
+              <p class="muted">连接兼容 OpenAI 接口的服务。</p>
+            </div>
+          </div>
+          <form id="settings-form" class="settings-form">
+            <div class="form-section">
+              <h2>接口</h2>
+              <label for="setting-base-url">API 地址</label>
+              <input id="setting-base-url" name="base_url" type="url" inputmode="url" placeholder="https://api.openai.com/v1" required />
+              <label for="setting-api-key">API 密钥 <span id="key-state" class="field-note"></span></label>
+              <input id="setting-api-key" name="api_key" type="password" autocomplete="new-password" placeholder="填写或更新密钥" />
+              <p class="field-help">已保存的密钥不会在此显示；留空则保留原密钥。</p>
+            </div>
+            <div class="form-section">
+              <h2>模型</h2>
+              <label for="setting-model">知识点整理模型</label>
+              <input id="setting-model" name="model" type="text" spellcheck="false" placeholder="gpt-4o-mini" required />
+              <label for="setting-transcription-model">语音转写模型</label>
+              <input id="setting-transcription-model" name="transcription_model" type="text" spellcheck="false" placeholder="whisper-1" required />
+            </div>
+            <p id="settings-error" class="form-error" role="alert" hidden></p>
+            <div class="settings-actions">
+              <button id="save-settings" class="button button-primary" type="submit">保存设置</button>
+              <span id="settings-saved" class="save-confirmation" role="status" aria-live="polite"></span>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

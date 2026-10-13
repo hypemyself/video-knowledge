@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: zhidian-hypemyself
+    runtime: docker
+    plan: 0.5c-512mb
+    region: singapore
+    autoDeployTrigger: 'off'
+    healthCheckPath: /
+    envVars:
+      - key: VIDEO_KNOWLEDGE_DATA_DIR
+        value: /var/data
+      - key: ZK_PUBLIC_URL
+        sync: false
+      - key: ZK_ACCESS_TOKEN
+        sync: false
+    disk:
+      name: zhidian-data
+      mountPath: /var/data
+      sizeGB: 1

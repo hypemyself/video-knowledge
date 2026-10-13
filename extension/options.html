@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>知点连接设置</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <main>
+    <header>
+      <span class="mark" aria-hidden="true">知</span>
+      <div>
+        <h1>知点连接设置</h1>
+        <p>设置知识库服务地址和访问令牌。</p>
+      </div>
+    </header>
+    <form id="connection-form">
+      <label for="origin">服务地址</label>
+      <input id="origin" name="origin" type="url" inputmode="url" autocomplete="url" required
+        placeholder="https://your-domain.example" aria-describedby="origin-hint">
+      <p class="hint" id="origin-hint">云端服务使用 HTTPS 地址；本地服务使用 http://127.0.0.1:8765。</p>
+
+      <label for="token">访问令牌</label>
+      <div class="token-field">
+        <input id="token" name="token" type="password" autocomplete="off" spellcheck="false"
+          aria-describedby="token-hint">
+        <button id="toggle-token" type="button" aria-label="显示访问令牌" aria-pressed="false">显示</button>
+      </div>
+      <p class="hint" id="token-hint">云端服务需要令牌。令牌只保存在当前浏览器扩展中。</p>
+
+      <div class="actions">
+        <button id="save" class="primary" type="submit">保存并检查连接</button>
+        <button id="use-local" type="button">使用本地服务</button>
+      </div>
+      <p id="status" role="status" aria-live="polite"></p>
+    </form>
+  </main>
+  <script src="options.js"></script>
+</body>
+</html>

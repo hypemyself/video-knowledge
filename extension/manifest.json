@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "知点 · B站知识整理",
+  "version": "0.3.0",
+  "description": "观看 B 站视频时自动提炼带时间点的知识点。",
+  "permissions": ["storage"],
+  "host_permissions": ["http://127.0.0.1:8765/*"],
+  "optional_host_permissions": ["https://*/*"],
+  "options_page": "options.html",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "打开知点"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.bilibili.com/video/*"],
+      "js": ["course-summary.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["panel.css"],
+      "matches": ["https://www.bilibili.com/*"]
+    }
+  ]
+}
